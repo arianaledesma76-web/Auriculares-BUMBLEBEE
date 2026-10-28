@@ -13,7 +13,7 @@
             margin: 0;
             padding: 0;
             font-family: sans-serif;
-            background-color: #FFF9E6; /* Mantiene el fondo amarillo pastel de base */
+            background-color: #645e3b; /* Nuevo color de fondo oscuro */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -50,18 +50,19 @@
 
         .welcome-container h1 {
             font-size: 2.5rem;
-            color: #FFEB99; /* Color Amarillo Pastel para el saludo principal */
+            color: #fbe04a; /* Nuevo color asignado para el saludo principal */
             margin: 0;
             font-weight: bold;
-            /* Se añade un borde oscuro sutil al texto para que el amarillo pastel sea legible sobre fondos claros */
-            text-shadow: -1px -1px 0 #333, 1px -1px 0 #333, -1px 1px 0 #333, 1px 1px 0 #333, 0px 4px 6px rgba(0,0,0,0.2);
+            /* Suave sombra oscura trasera para despegar el texto del fondo */
+            text-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
         }
 
         .welcome-container p {
             font-size: 1.1rem;
-            color: #FFE680; /* Tono amarillo pastel secundario para el subtítulo */
+            color: #fbe04a; /* Mismo color para mantener la armonía en el subtítulo */
             margin: 5px 0 0 0;
-            text-shadow: -1px -1px 0 #333, 1px -1px 0 #333, -1px 1px 0 #333, 1px 1px 0 #333;
+            opacity: 0.9; /* Ligera transparencia para jerarquizar el subtítulo */
+            text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
         }
         
         model-viewer {
@@ -83,11 +84,12 @@
             right: 32px;
             padding: 12px 24px;
             font-size: 16px;
-            color: #4285f4;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+            color: #645e3b; /* Color del texto del botón a juego con el fondo */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
             cursor: pointer;
             z-index: 4; /* Capa más alta para interactuar */
             user-select: none;
+            font-weight: bold;
         }
 
         /* Estilo para las partículas de ruedas animadas */
