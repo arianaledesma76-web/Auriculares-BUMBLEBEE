@@ -38,28 +38,30 @@
             z-index: 0; /* Queda al fondo de todo */
          }
 
-        /* Contenedor del Saludo/Título visible en pantalla */
+        /* Contenedor del Saludo/Título visible en pantalla - POSICIONADO ADELANTE DEL MODELO */
         .welcome-container {
             position: absolute;
             top: 40px; /* Distancia desde la parte superior de la pantalla */
             text-align: center;
             width: 100%;
-            z-index: 2; /* Se posiciona ADELANTE de la imagen de fondo */
-            pointer-events: none; /* Los toques pasan de largo hacia el modelo 3D */
+            z-index: 3; /* Capa alta: por delante de la imagen de fondo Y del modelo 3D */
+            pointer-events: none; /* Los toques pasan de largo para interactuar con Bumblebee */
         }
 
         .welcome-container h1 {
             font-size: 2.5rem;
-            color: #333333; /* Gris oscuro para resaltar sobre el amarillo */
+            color: #FFEB99; /* Color Amarillo Pastel para el saludo principal */
             margin: 0;
             font-weight: bold;
-            text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05); /* Suave sombra */
+            /* Se añade un borde oscuro sutil al texto para que el amarillo pastel sea legible sobre fondos claros */
+            text-shadow: -1px -1px 0 #333, 1px -1px 0 #333, -1px 1px 0 #333, 1px 1px 0 #333, 0px 4px 6px rgba(0,0,0,0.2);
         }
 
         .welcome-container p {
             font-size: 1.1rem;
-            color: #555555;
+            color: #FFE680; /* Tono amarillo pastel secundario para el subtítulo */
             margin: 5px 0 0 0;
+            text-shadow: -1px -1px 0 #333, 1px -1px 0 #333, -1px 1px 0 #333, 1px 1px 0 #333;
         }
         
         model-viewer {
@@ -68,7 +70,7 @@
             background-color: transparent;
             --poster-color: transparent;
             position: relative;
-            z-index: 1; /* El robot se renderiza sobre el fondo */
+            z-index: 1; /* El robot queda en una capa intermedia por detrás del título */
         }
 
         /* Estilo personalizado para el botón de Realidad Aumentada */
@@ -84,7 +86,7 @@
             color: #4285f4;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
             cursor: pointer;
-            z-index: 3; /* Capa más alta para interactuar */
+            z-index: 4; /* Capa más alta para interactuar */
             user-select: none;
         }
 
@@ -111,7 +113,7 @@
 </head>
 <body>
 
-    <!-- Bloque de saludo visible dentro de la página (adelante del fondo) -->
+    <!-- Bloque de saludo visible (adelante del modelo de Bumblebee) -->
     <div class="welcome-container">
         <h1>Bienvenidos💛</h1>
         <p>Interactúa con el modelo o proyéctalo en tu espacio móvil</p>
@@ -167,4 +169,3 @@
 
 </body>
 </html>
-
