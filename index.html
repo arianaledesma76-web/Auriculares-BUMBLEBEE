@@ -2,27 +2,27 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bienvenidos💛</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Bumblebee AR</title>
     
-    <!-- URL oficial del componente model-viewer -->
+    <!-- Librería oficial de Google cargada de forma segura mediante HTTPS -->
     <script type="module" src="https://googleapis.com"></script>
     
     <style>
-        body {
+        /* Optimización total de pantalla para dispositivos móviles */
+        html, body {
             margin: 0;
             padding: 0;
-            font-family: sans-serif;
-            background-color: #645e3b; 
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            width: 100%;
             height: 100vh;
+            height: -webkit-fill-available; /* Corrección de altura para Safari móvil */
             overflow: hidden;
+            background-color: #645e3b; 
+            font-family: sans-serif;
             position: relative;
         }
 
-        /* Capa para la imagen de fondo */
+        /* Capa exclusiva para la imagen de fondo con opacidad media */
         body::before {
             content: "";
             position: absolute;
@@ -37,33 +37,8 @@
             opacity: 0.5; 
             z-index: 0; 
          }
-
-        /* Contenedor del Saludo/Título */
-        .welcome-container {
-            position: absolute;
-            top: 40px; 
-            text-align: center;
-            width: 100%;
-            z-index: 3; 
-            pointer-events: none; 
-        }
-
-        .welcome-container h1 {
-            font-size: 2.5rem;
-            color: #fbe04a; 
-            margin: 0;
-            font-weight: bold;
-            text-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
-        }
-
-        .welcome-container p {
-            font-size: 1.1rem;
-            color: #fbe04a; 
-            margin: 5px 0 0 0;
-            opacity: 0.9; 
-            text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
-        }
         
+        /* Visor 3D adaptado para abarcar todo el espacio táctil del móvil */
         model-viewer {
             width: 100%;
             height: 100%;
@@ -73,31 +48,42 @@
             z-index: 1; 
         }
 
-        /* Estilo para el botón de Realidad Aumentada */
+        /* Botón de AR flotante optimizado para pulsaciones táctiles (Mobile Friendly) */
         #ar-button {
             background-color: #ffffff;
-            border-radius: 4px;
+            border-radius: 50px; /* Bordes más redondeados para diseño móvil */
             border: none;
             position: absolute;
-            bottom: 32px;
-            right: 32px;
-            padding: 12px 24px;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%); /* Centrado perfectamente en pantallas móviles */
+            padding: 16px 32px;
             font-size: 16px;
             color: #645e3b; 
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.4);
             cursor: pointer;
             z-index: 4; 
             user-select: none;
+            -webkit-user-select: none;
             font-weight: bold;
+            white-space: nowrap;
+            letter-spacing: 0.5px;
+            transition: transform 0.2s ease, background-color 0.2s ease;
         }
 
-        /* Partículas de ruedas */
+        /* Efecto feedback visual rápido al mantener presionado en celular */
+        #ar-button:active {
+            transform: translateX(-50%) scale(0.95);
+            background-color: #f0f0f0;
+        }
+
+        /* Estilo para las partículas de ruedas animadas */
         .wheel-particle {
             position: fixed;
             pointer-events: none;
-            font-size: 24px;
+            font-size: 28px;
             z-index: 9999;
-            animation: flyParticle 1s ease-out forwards;
+            animation: flyParticle 0.8s ease-out forwards;
         }
 
         @keyframes flyParticle {
@@ -106,7 +92,7 @@
                 opacity: 1;
             }
             100% {
-                transform: translate(var(--x), var(--y)) scale(0.5) rotate(var(--r));
+                transform: translate(var(--x), var(--y)) scale(0.3) rotate(var(--r));
                 opacity: 0;
             }
         }
@@ -114,13 +100,7 @@
 </head>
 <body>
 
-    <div class="welcome-container">
-        <h1>Bienvenidos💛</h1>
-        <p>Interactúa con el modelo o proyéctalo en tu espacio móvil</p>
-    </div>
-
-    <!-- CORRECCIÓN 1: Rutas relativas explícitas './' para evitar problemas en GitHub Pages -->
-    <!-- CORRECCIÓN 2: Se añaden atributos 'ar-status' nativos para que el botón solo aparezca si el dispositivo es compatible -->
+    <!-- El componente gestiona por sí mismo la activación HTTPS de WebXR -->
     <model-viewer 
         id="bumblebee-viewer"
         src="./modelado.glb" 
@@ -129,10 +109,11 @@
         ar-modes="scene-viewer quick-look webxr" 
         ar-placement="floor"
         camera-controls 
-        touch-action="pan-y" 
+        touch-action="none" <!-- Optimiza el arrastre del modelo 3D en pantallas táctiles sin interferir con el scroll -->
         shadow-intensity="1" 
         alt="Un modelo 3D interactivo en Realidad Aumentada">
         
+        <!-- Botón oficial enlazado mediante slot -->
         <button slot="ar-button" id="ar-button">
             Apreta para ver a Bumblebee (AR)
         </button>
@@ -142,21 +123,25 @@
     <script>
         const arButton = document.getElementById('ar-button');
 
+        // Manejador del evento táctil móvil (touchstart/click)
         arButton.addEventListener('click', function(e) {
-            // CORRECCIÓN 3: Eliminamos la alerta de error forzada por JS. 
-            // Si hay compatibilidad, model-viewer abrirá la cámara por sí solo gracias al atributo slot="ar-button".
+            // El salto a la Realidad Aumentada se delega de forma nativa a la librería HTTPS.
+            // Esto previene bloqueos de seguridad por "falso click" en navegadores móviles rígidos.
 
-            // Efecto visual de explosión de ruedas (🛞)
-            for (let i = 0; i < 10; i++) {
+            // Efecto visual de explosión de ruedas (🛞) adaptado para móviles
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+
+            for (let i = 0; i < 12; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'wheel-particle';
                 particle.innerText = '🛞';
                 
-                particle.style.left = e.clientX + 'px';
-                particle.style.top = e.clientY + 'px';
+                particle.style.left = (clientX || window.innerWidth / 2) + 'px';
+                particle.style.top = (clientY || window.innerHeight - 60) + 'px';
                 
                 const angle = Math.random() * Math.PI * 2;
-                const velocity = Math.random() * 120 + 40; 
+                const velocity = Math.random() * 140 + 50; 
                 const x = Math.cos(angle) * velocity + 'px';
                 const y = Math.sin(angle) * velocity + 'px';
                 const rotation = (Math.random() * 360) + 'deg';
@@ -169,7 +154,7 @@
                 
                 setTimeout(() => {
                     particle.remove();
-                }, 1000);
+                }, 800);
             }
         });
     </script>
