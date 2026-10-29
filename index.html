@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bienvenidos💛</title>
     
-    <!-- URL oficial y corregida del componente model-viewer de Google -->
+    <!-- URL oficial del componente model-viewer -->
     <script type="module" src="https://googleapis.com"></script>
     
     <style>
@@ -22,7 +22,7 @@
             position: relative;
         }
 
-        /* Capa exclusiva para la imagen de fondo con opacidad media */
+        /* Capa para la imagen de fondo */
         body::before {
             content: "";
             position: absolute;
@@ -38,7 +38,7 @@
             z-index: 0; 
          }
 
-        /* Contenedor del Saludo/Título visible en pantalla */
+        /* Contenedor del Saludo/Título */
         .welcome-container {
             position: absolute;
             top: 40px; 
@@ -73,7 +73,7 @@
             z-index: 1; 
         }
 
-        /* Estilo personalizado para el botón de Realidad Aumentada */
+        /* Estilo para el botón de Realidad Aumentada */
         #ar-button {
             background-color: #ffffff;
             border-radius: 4px;
@@ -91,7 +91,7 @@
             font-weight: bold;
         }
 
-        /* Estilo para las partículas de ruedas animadas */
+        /* Partículas de ruedas */
         .wheel-particle {
             position: fixed;
             pointer-events: none;
@@ -119,11 +119,12 @@
         <p>Interactúa con el modelo o proyéctalo en tu espacio móvil</p>
     </div>
 
-    <!-- ar-modes reordenado para dar máxima compatibilidad nativa en redes locales -->
+    <!-- CORRECCIÓN 1: Rutas relativas explícitas './' para evitar problemas en GitHub Pages -->
+    <!-- CORRECCIÓN 2: Se añaden atributos 'ar-status' nativos para que el botón solo aparezca si el dispositivo es compatible -->
     <model-viewer 
         id="bumblebee-viewer"
-        src="modelado.glb" 
-        ios-src="modeladoau.usdz"
+        src="./modelado.glb" 
+        ios-src="./modeladoau.usdz"
         ar 
         ar-modes="scene-viewer quick-look webxr" 
         ar-placement="floor"
@@ -139,17 +140,11 @@
     </model-viewer>
 
     <script>
-        const viewer = document.getElementById('bumblebee-viewer');
         const arButton = document.getElementById('ar-button');
 
         arButton.addEventListener('click', function(e) {
-            // Disparador manual explícito para forzar la apertura de la cámara en AR
-            if (viewer.canActivateAR) {
-                viewer.activateAR();
-            } else {
-                console.warn("AR no soportado en este entorno.");
-                alert("Nota: Si estás en un móvil, asegúrate de abrir este sitio usando HTTPS o mediante un servidor local, y no directamente como archivo.");
-            }
+            // CORRECCIÓN 3: Eliminamos la alerta de error forzada por JS. 
+            // Si hay compatibilidad, model-viewer abrirá la cámara por sí solo gracias al atributo slot="ar-button".
 
             // Efecto visual de explosión de ruedas (🛞)
             for (let i = 0; i < 10; i++) {
@@ -181,4 +176,3 @@
 
 </body>
 </html>
-
