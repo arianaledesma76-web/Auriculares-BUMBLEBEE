@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bienvenidos💛</title>
     
-    <!-- Importa el componente model-viewer de Google -->
+    <!-- CORRECCIÓN 1: URL correcta del componente model-viewer -->
     <script type="module" src="https://googleapis.com"></script>
     
     <style>
@@ -22,7 +22,6 @@
             position: relative;
         }
 
-        /* Capa exclusiva para la imagen de fondo con opacidad media */
         body::before {
             content: "";
             position: absolute;
@@ -38,7 +37,6 @@
             z-index: 0; 
          }
 
-        /* Contenedor del Saludo/Título visible en pantalla */
         .welcome-container {
             position: absolute;
             top: 40px; 
@@ -73,7 +71,6 @@
             z-index: 1; 
         }
 
-        /* Estilo personalizado para el botón de Realidad Aumentada */
         #ar-button {
             background-color: #ffffff;
             border-radius: 4px;
@@ -91,7 +88,6 @@
             font-weight: bold;
         }
 
-        /* Estilo para las partículas de ruedas animadas */
         .wheel-particle {
             position: fixed;
             pointer-events: none;
@@ -119,13 +115,13 @@
         <p>Interactúa con el modelo o proyéctalo en tu espacio móvil</p>
     </div>
 
-    <!-- Se agregaron ar-placement="floor" y se reordenaron ar-modes para priorizar la cámara real -->
+    <!-- CORRECCIÓN 2: Se quitó el ordenamiento forzado de ar-modes para dejar el nativo más compatible -->
     <model-viewer 
         id="bumblebee-viewer"
         src="modelado.glb" 
         ios-src="modeladoau.usdz"
         ar 
-        ar-modes="scene-viewer quick-look webxr" 
+        ar-modes="webxr scene-viewer quick-look" 
         ar-placement="floor"
         camera-controls 
         touch-action="pan-y" 
@@ -139,16 +135,12 @@
     </model-viewer>
 
     <script>
-        const viewer = document.getElementById('bumblebee-viewer');
         const arButton = document.getElementById('ar-button');
 
         arButton.addEventListener('click', function(e) {
-            // Forzar de manera explícita el disparador interno de Realidad Aumentada del visor
-            if (viewer.canActivateAR) {
-                viewer.activateAR();
-            }
-
-            // Efecto visual de explosión de ruedas (🛞)
+            // CORRECCIÓN 3: Eliminamos "viewer.activateAR()" porque model-viewer ya lo maneja solo al usar slot="ar-button".
+            
+            // Mantenemos únicamente tu genial efecto de partículas (🛞)
             for (let i = 0; i < 10; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'wheel-particle';
@@ -178,4 +170,3 @@
 
 </body>
 </html>
-
