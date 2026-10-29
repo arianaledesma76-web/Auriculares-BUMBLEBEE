@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bienvenidos💛</title>
     
-    <!-- CORRECCIÓN 1: URL correcta del componente model-viewer -->
+    <!-- URL oficial y corregida del componente model-viewer de Google -->
     <script type="module" src="https://googleapis.com"></script>
     
     <style>
@@ -22,6 +22,7 @@
             position: relative;
         }
 
+        /* Capa exclusiva para la imagen de fondo con opacidad media */
         body::before {
             content: "";
             position: absolute;
@@ -37,6 +38,7 @@
             z-index: 0; 
          }
 
+        /* Contenedor del Saludo/Título visible en pantalla */
         .welcome-container {
             position: absolute;
             top: 40px; 
@@ -71,6 +73,7 @@
             z-index: 1; 
         }
 
+        /* Estilo personalizado para el botón de Realidad Aumentada */
         #ar-button {
             background-color: #ffffff;
             border-radius: 4px;
@@ -88,6 +91,7 @@
             font-weight: bold;
         }
 
+        /* Estilo para las partículas de ruedas animadas */
         .wheel-particle {
             position: fixed;
             pointer-events: none;
@@ -115,13 +119,13 @@
         <p>Interactúa con el modelo o proyéctalo en tu espacio móvil</p>
     </div>
 
-    <!-- CORRECCIÓN 2: Se quitó el ordenamiento forzado de ar-modes para dejar el nativo más compatible -->
+    <!-- ar-modes reordenado para dar máxima compatibilidad nativa en redes locales -->
     <model-viewer 
         id="bumblebee-viewer"
         src="modelado.glb" 
         ios-src="modeladoau.usdz"
         ar 
-        ar-modes="webxr scene-viewer quick-look" 
+        ar-modes="scene-viewer quick-look webxr" 
         ar-placement="floor"
         camera-controls 
         touch-action="pan-y" 
@@ -135,12 +139,19 @@
     </model-viewer>
 
     <script>
+        const viewer = document.getElementById('bumblebee-viewer');
         const arButton = document.getElementById('ar-button');
 
         arButton.addEventListener('click', function(e) {
-            // CORRECCIÓN 3: Eliminamos "viewer.activateAR()" porque model-viewer ya lo maneja solo al usar slot="ar-button".
-            
-            // Mantenemos únicamente tu genial efecto de partículas (🛞)
+            // Disparador manual explícito para forzar la apertura de la cámara en AR
+            if (viewer.canActivateAR) {
+                viewer.activateAR();
+            } else {
+                console.warn("AR no soportado en este entorno.");
+                alert("Nota: Si estás en un móvil, asegúrate de abrir este sitio usando HTTPS o mediante un servidor local, y no directamente como archivo.");
+            }
+
+            // Efecto visual de explosión de ruedas (🛞)
             for (let i = 0; i < 10; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'wheel-particle';
@@ -170,3 +181,4 @@
 
 </body>
 </html>
+
